@@ -38,6 +38,8 @@ public class AudioManager : MonoBehaviour
 
     private void SetSounds()
     {
+        // Error: Resources.FindObjectsOfTypeAll<Button>() devuelve TODOS los Button cargados, incluyendo prefabs y objetos inactivos/de otras escenas, no solo los de la escena actual. Esto agrega listeners a botones que no corresponden.
+        // Warning: ademas se llama en cada sceneLoaded y nunca se hace RemoveListener, por lo que un mismo boton puede acumular varios listeners y reproducir el SFX multiples veces. Mejor referenciar los botones explicitamente o suscribir/desuscribir de forma controlada.
         Button[] buttons = Resources.FindObjectsOfTypeAll<Button>();
         foreach (Button but in buttons)
         {

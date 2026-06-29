@@ -101,6 +101,7 @@ public class UIManager : MonoBehaviour
     }
     private void UpdateLivesUI(int lives)
     {
+        // Warning: la condicion del while incluye LiveStack.Count > 0, por lo que si por algun motivo hubiera que SUBIR de 0 a N vidas el bucle nunca arranca. Para el flujo actual (solo se pierden vidas) funciona, pero la rama 'if (lives > LiveStack.Count) Push' queda como codigo muerto/inalcanzable en ese caso.
         while (LiveStack.Count != lives && LiveStack.Count > 0)
         {
             if (lives > LiveStack.Count)

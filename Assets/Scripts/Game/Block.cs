@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    // Sugestion: Falta private.
     [SerializeField] BlockConfig Config;
 
     [SerializeField] Rigidbody body;
     [SerializeField] Renderer model;
+    // Warning: campo public mutable; cualquier script puede sobrescribir 'size'. Como solo se calcula en Awake y se lee desde afuera, exponelo como propiedad de solo lectura: public Vector3 Size { get; private set; }.
     public Vector3 size;
     private void Awake()
     {

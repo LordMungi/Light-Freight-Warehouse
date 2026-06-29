@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Crane : MonoBehaviour
 {
+    // Sugestion: convencion de nombres: SPEED en MAYUSCULAS sugiere const, pero es un campo serializado editable; nombralo en camelCase (speed) y reserva MAYUSCULAS para const/readonly.
     [SerializeField] private float SPEED = 1f;
+    // Warning: modificar wallMaterial.mainTextureOffset en runtime altera el ASSET de material compartido (cambios persisten en el editor y afectan a todos los objetos que lo usan). Si fuera intencional documentalo; si no, usar material instanciado.
     [SerializeField] Material wallMaterial;
 
     [Header("Listener Events")]

@@ -4,6 +4,7 @@ public class BezierRouteFollow3D : MonoBehaviour
 {
     [SerializeField] BezierPath3D[] Paths;
 
+    // Sugestion: SPEED en MAYUSCULAS sugiere constante pero es un campo serializado; renombrar a camelCase (speed).
     [SerializeField, Range(0f, 10f)] float SPEED = 0.5f;
 
     private int currentRoute = 0;

@@ -21,6 +21,7 @@ public class BlockManager : MonoBehaviour
     private float totalOffset;
     private List<float> lastBlocksOffset;
 
+    // Sugestion: este manager concentra logica de spawn, deteccion de aterrizaje, wobble y reproduccion de SFX; podria separarse (p.ej. un componente de audio que escuche los event channels, como ya hace UIManager) para bajar el acoplamiento.
     [Header("Sounds")]
     [SerializeField] private AudioSource BlockLandSFX;
     [SerializeField] private AudioSource BlockPerfectSFX;
@@ -62,6 +63,7 @@ public class BlockManager : MonoBehaviour
     private void Update()
     {
         TowerParent.transform.position = Vector3.MoveTowards(TowerParent.transform.position, WobblePoints[goingToPointIndex], Time.deltaTime * wobbleSpeed);
+        // Warning: comparar floats con == (position.x == WobblePoints.x) es fragil por la precision de punto flotante; MoveTowards garantiza llegar exacto al objetivo, pero si wobbleSpeed es 0 nunca se cumple. Mejor usar Mathf.Approximately o comparar la distancia con un epsilon.
         if (TowerParent.transform.position.x == WobblePoints[goingToPointIndex].x)
             goingToPointIndex = goingToPointIndex == 0 ? 1 : 0;
     }
@@ -162,6 +164,7 @@ public class BlockManager : MonoBehaviour
     private void RemoveBlockFromTower()
     {
         Destroy(TowerBlocks.Pop().gameObject);
+        // Error: List<float>.Remove elimina por VALOR, no por indice. Aca estas intentando borrar el ultimo elemento pero le pasas el indice (Count-1) como si fuera un valor float a buscar; borra un offset que probablemente no exista. Deberia ser lastBlocksOffset.RemoveAt(lastBlocksOffset.Count - 1).
         lastBlocksOffset.Remove(lastBlocksOffset.Count - 1);
         towerHeight--;
     }

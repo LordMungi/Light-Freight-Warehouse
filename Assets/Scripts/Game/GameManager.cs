@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         isPlaying = true;
         isPaused = false;
         Time.timeScale = 1;
+        // Warning: PlayerPrefs.GetInt sin valor por defecto; conviene GetInt("Highscore", 0) y centralizar la clave "Highscore" en una constante para evitar errores de tipeo entre Awake y GameOver.
         highScore = PlayerPrefs.GetInt("Highscore");
     }
     void Start()
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        // Sugestion: las teclas (Space, Escape) estan hardcodeadas; convendria exponerlas como KeyCode serializado o usar el nuevo Input System para permitir rebinding.
         if (Input.GetKeyDown(KeyCode.Space))
             BlockDropEvent.RaiseEvent();
         if (Input.GetKeyDown(KeyCode.Escape) && isPlaying)
@@ -137,6 +139,7 @@ public class GameManager : MonoBehaviour
 
     private void LoseLife()
     {
+        // Error: hay un off-by-one. Con InitialLives=3, al fallar se baja a 2,1,0 sin terminar; el GameOver recién dispara en el CUARTO fallo (cuando lives ya es 0 y entra al else). El jugador obtiene una vida extra respecto a lo configurado. Deberías decrementar y luego chequear: lives--; if (lives <= 0) GameOver();
         if (lives > 0)
             lives--;
         else

@@ -54,6 +54,7 @@ public class RackSpawner : MonoBehaviour
     {
         for (int i = 0; i < racksPerRow; i++)
         {
+            // Sugestion: RackPrefabs es un array pero siempre se usa el indice [0]; o aprovechas la variedad (p.ej. Random.Range para distintos modelos) o lo reemplazas por un unico campo GameObject.
             GameObject newRack = Instantiate(RackPrefabs[0], parent.transform);
             newRack.transform.position += new Vector3((rackSize.x + horizontalSpacing) * i, (rackSize.y + verticalSpacing) * row, 0);
             racks.Enqueue(newRack);
@@ -71,6 +72,7 @@ public class RackSpawner : MonoBehaviour
 
     private void CheckForRowcreation(Block b)
     {
+        // Warning: racks.Peek() sin chequear que la Queue tenga elementos; si quedara vacia lanza InvalidOperationException. Conviene validar racks.Count > 0.
         if (b.transform.position.y > racks.Peek().transform.position.y + rackSize.y * racksUntilDeletion)
             CreateRow();
     }
